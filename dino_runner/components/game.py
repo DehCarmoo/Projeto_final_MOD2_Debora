@@ -1,8 +1,11 @@
 import pygame 
 from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE  #dino_runner é o nome da pasta principal.
 from dino_runner.components.dinosaur import Dinosaur # vamos contruir esse arquivo 
-from dino_runner.components.obstacle_manager import Obstacle_Manager #Importanto obstáculos 
+from dino_runner.components.obstacles.obstacle_manager import ObstacleManager #Importanto obstáculos 
+from dino_runner.utils.text_utils import draw_message_component
 from dino_runner.components.powerups.power_up_manage import PowerUpManager #Importanto o super poder
+
+
 
 class game: #base do jogo
     def __init__(self):
@@ -19,7 +22,7 @@ class game: #base do jogo
         self.x_pos_bg = 0  # posição do objeto
         self.y_pos_bg = 0 
         self.player = Dinosaur()
-        self.obstacle_manager = Obstacle_Manager()
+        self.obstacle_manager = ObstacleManager()
         self.power_up_manager = PowerUpManager
         
     def execute (self): #Enquanto meu dinoussauro estiver correndo, esta vivo, se não, aparece a tela o restart
@@ -141,5 +144,8 @@ class game: #base do jogo
          
          self.screen.blit(ICON, (half_Screen_width - 40, half_Screen_height - 30))
     
+         self.handle_events_on_menu()  
+    
+    
 pygame.display.flip()
-self.handle_events_on_menu()                         
+                       
