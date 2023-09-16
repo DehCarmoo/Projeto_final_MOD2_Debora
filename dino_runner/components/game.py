@@ -16,9 +16,9 @@ class Game:
         self.running = False
         self.score = 0
         self.death_count = 0 
-        self.game_speed = 20
+        self.game_speed = 10
         self.x_pos_bg = 0
-        self.y_pos_bg = 380
+        self.y_pos_bg = 420
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
         self.power_up_manager = PowerUpManager()
@@ -36,7 +36,7 @@ class Game:
         self.playing = True
         self.obstacle_manager.reset_obstacles()
         self.power_up_manager.reset_power_up()
-        self.game_speed = 20
+        self.game_speed = 15
         self.score = 0
 
         while self.playing:
@@ -64,7 +64,7 @@ class Game:
     
     def draw(self): # tela do jogo
         self.clock.tick(FPS)  
-        self.screen.fill((255, 255, 255))
+        self.screen.fill((255, 165, 0))
         self.draw_blackground()
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
