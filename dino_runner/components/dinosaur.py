@@ -29,7 +29,7 @@ class Dinosaur(Sprite):
         self.has_power_up = False
         self.shield = False
         self.show_text = False
-        self.shield_time_up = 0
+        self.shield_time_up = 10 #alterado
         
     def update(self, user_input):
         if self.dino_run:

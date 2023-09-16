@@ -4,8 +4,8 @@ import os
 # Global Constants
 TITLE = "Jogo da Sofrencia"
 SCREEN_HEIGHT = 600
-SCREEN_WIDTH = 600
-FPS = 50
+SCREEN_WIDTH = 1100
+FPS = 30
 IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 
 # Assets Constants
