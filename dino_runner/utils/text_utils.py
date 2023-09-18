@@ -1,8 +1,8 @@
 import pygame
-
+#adicionar letras
 from dino_runner.utils.constants import SCREEN_HEIGHT, SCREEN_WIDTH
 
-FONT_COLOR = (0, 0, 0)
+FONT_COLOR = (255, 255, 255) #mudei a cor 
 FONT_SIZE = 22
 FONT_STYLE = "freesansbold.ttf"
 

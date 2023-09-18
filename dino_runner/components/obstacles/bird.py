@@ -5,7 +5,7 @@ from dino_runner.components.obstacles.obstacle import Obstacle
 class Bird(Obstacle):
     def __init__(self):
         super().__init__(BIRD, 0)
-        self.rect.y = 300
+        self.rect.y = 265
         self.step_index = 0
 
     def draw(self, screen):
@@ -14,3 +14,5 @@ class Bird(Obstacle):
 
         if self.step_index >= 10:
             self.step_index = 0
+            
+          
