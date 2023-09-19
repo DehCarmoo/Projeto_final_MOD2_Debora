@@ -1,7 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
-from dino_runner.utils.constants import (RUNNING,JUMPING,DUCKING,DEFAULT_TYPE,SHIELD_TYPE,DUCKING_SHIELD,JUMPING_SHIELD,RUNNING_SHIELD,
-)
+from dino_runner.utils.constants import (RUNNING,JUMPING,DUCKING,DEFAULT_TYPE,SHIELD_TYPE,DUCKING_SHIELD,JUMPING_SHIELD,RUNNING_SHIELD,)
 
 
 pygame.init()
@@ -12,9 +11,9 @@ JUMP_IMG = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE: JUMPING_SHIELD}
 RUN_IMG = {DEFAULT_TYPE: RUNNING, SHIELD_TYPE: RUNNING_SHIELD}
 
 
-X_POS = 80 #posição do personagem
-Y_POS = 320 #posição do chão
-Y_POS_DUCK = 325 #posição dele quando abaixar0
+X_POS = 70 
+Y_POS = 345 #posição do chão
+Y_POS_DUCK = 350 #posição dele quando abaixar0
 JUMP_VEL = 7 #velocidade do pulo 
 
 
@@ -51,7 +50,7 @@ class Dinosaur(Sprite): #características do personagem do jogo
             self.dino_jump = True
             self.dino_duck = False
             if self.dino_jump == True:  # Se o personagem pular, então dê player ao som
-                jump.play()
+                jump.play() #Adicionei
         elif user_input[pygame.K_DOWN] and not self.dino_jump: #significa abaixar, a setinha de baixo
             self.dino_run = False
             self.dino_jump = False

@@ -25,7 +25,7 @@ class ObstacleManager:
             if game.player.dino_rect.colliderect(obstacle.rect): #se meu jogador colidi com os obstaculos
                 if not game.player.has_power_up: #se o jogador não estiver com  super poder ao coligir 
                     pygame.time.delay(500) #quando ele morre demora pra aoarecer atela do menu
-                    dead.play()
+                    dead.play()# adicionei 
                     game.playing = False
                     game.death_count += 1
                     break #break pra findar o bloco

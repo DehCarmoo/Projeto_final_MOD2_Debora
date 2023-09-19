@@ -57,7 +57,6 @@ BIRD = [
     pygame.image.load(os.path.join(IMG_DIR, "Bird/Bird2.png")),
 ]
 
-DEAD = pygame.image.load(os.path.join(IMG_DIR, 'Dino/DinoDead.png')) #ADICIONEI 
 CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Other/Cloud.png'))
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 

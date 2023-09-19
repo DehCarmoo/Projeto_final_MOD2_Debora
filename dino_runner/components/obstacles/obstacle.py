@@ -12,7 +12,7 @@ class Obstacle(Sprite): #Sprite são os eventos do meu jogo
     def update(self, game_speed, obstacles):
         self.rect.x -= game_speed
         
-        if self.rect.x < - self.rect.width:
+        if self.rect.x < - self.rect.width: #estava right
             obstacles.pop()
             
     def draw(self, screen):

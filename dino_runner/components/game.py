@@ -25,12 +25,13 @@ class Game: #base do jogo
         self.playing = False
         self.running = False
         self.score = 0
+        self.recorde = 0 #Adicionado
         self.death_count = 0 #cotagem de vidas 
         self.game_speed = 20
         self.x_pos_bg = 0 #posição do objeto
         self.y_pos_bg = 340
         self.x_pos_cloud = 0 #adicionado
-        self.y_pos_cloud = 30 #adicionado 
+        self.y_pos_cloud = 40
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
         self.power_up_manager = PowerUpManager()
@@ -77,7 +78,8 @@ class Game: #base do jogo
         if self.score % 100 == 0:
             self.game_speed +=  5
             score.play() # som do score, foi adicionado 
-            
+        if self.score >= self.recorde: #adicionando recorde 
+            self.recorde = self.score  
              
         
     def draw(self): # Desenhando a tela do jogo
@@ -102,7 +104,7 @@ class Game: #base do jogo
         if self.x_pos_bg <= - image_width:
             self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
             self.x_pos_bg = 0
-            self.x_pos_bg -= self.game_speed
+        self.x_pos_bg -= self.game_speed
 
     def draw_score(self): #Desenhando a pontuação do jogo
         draw_message_component(
@@ -111,6 +113,14 @@ class Game: #base do jogo
             pos_x_center = 1000, #Posição que irá aparecer a pontuação do jogo
             pos_y_center = 50
         )
+        draw_message_component(
+            f"recorde:{self.recorde}", #recebeo record do jogo
+            self.screen,
+            pos_x_center = 1000, #Posição que irá aparecero record do jogo
+            pos_y_center = 75
+        )
+        
+        
 
     def draw_power_up_time(self): #tempo para mostrar
         if self.player.has_power_up:
@@ -128,13 +138,14 @@ class Game: #base do jogo
                     self.player.type = DEFAULT_TYPE
                     
     def draw_cloud(self):
-        image_width = CLOUD.get_width()
-        self.screen.blit(CLOUD, (image_width + self.x_pos_cloud, self.y_pos_cloud))
-        if self.x_pos_cloud <= - image_width:
-            self.screen.blit(CLOUD, (image_width + self.x_pos_cloud, self.y_pos_cloud))
-            self.x_pos_cloud = 1000
+        image_width = CLOUD.get_width() #atribuindo a largura na imagem da nuvem 
+        self.screen.blit(CLOUD, (image_width + self.x_pos_cloud, self.y_pos_cloud)) #aqui a imagem está sendo desenhada  e está sendo atribuida a posição da nuvem
+        if self.x_pos_cloud <= - image_width: #essa condicional irá verificar a posição da nuvem e vai verificar se ela saiu completamente da tela
+            self.screen.blit(CLOUD, (image_width + self.x_pos_cloud, self.y_pos_cloud)) #desenha outra nuvem caso a nuvem anterior tenha saido da tela, dando a impressão que a nuve mestá se movimentando
+            self.x_pos_cloud = 1000 #posição da nuvem 
+          
 
-        self.x_pos_cloud -= self.game_speed
+        self.x_pos_cloud -= self.game_speed #controla a velocidade do movimento da nuvem 
     
     def handle_events_on_menu(self):
         for event in pygame.event.get():
@@ -168,6 +179,12 @@ class Game: #base do jogo
                 self.screen,
                 pos_y_center = half_screen_height - 100
             )
+            draw_message_component(
+                f"Maior pontuação: {self.recorde}",
+                self.screen,
+                pos_y_center = half_screen_height + 100
+            )#adicionei
+
 
             self.screen.blit(ICON, (hals_screen_width - 20, half_screen_height - 60))#modifiquei o icone e ajustei a posição
             self.screen.blit(GAME_OVER, (hals_screen_width - 200, half_screen_height - 190))#Adicionei o gamer over no final 
