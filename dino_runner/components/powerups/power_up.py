@@ -2,7 +2,7 @@ import random
 from pygame.sprite import Sprite
 from dino_runner.utils.constants import SCREEN_WIDTH
 
-class PowerUp(Sprite):
+class PowerUp(Sprite): #Escudo shield
     def __init__(self, image, type):
         self.image = image 
         self.type = type
@@ -10,13 +10,13 @@ class PowerUp(Sprite):
         self.rect.x = SCREEN_WIDTH + random.randint(800,1000)
         self.rect.y = random.randint(125, 175)
         self.start_time = 0 
-        self.duration = random.randint(5, 10)
+        self.duration = random.randint(5, 10) #Randint faz com que os superpoderes apareçam de forma aleatória, aqui também faz parte da duração dele
 
-    def update(self, game_speed, power_ups): #fazer update 
+    def update(self, game_speed, power_ups): #Está fazendo atualização dos poderes
         self.rect.x -= game_speed
        
         if self.rect.x < -self.rect.right:
-            power_ups.pop() 
+            power_ups.pop()  #pop remove o super poder 
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

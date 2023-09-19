@@ -1,17 +1,21 @@
 import pygame 
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
+
+from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, GAME_OVER, CLOUD
 from dino_runner.components.dinosaur import Dinosaur
-from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
+from dino_runner.components.obstacles.obstacle_manager import ObstacleManager #Importando os obstáculos 
 from dino_runner.utils.text_utils import draw_message_component
-from dino_runner.components.powerups.power_up_manage import PowerUpManager
-
-pygame.init()
-pygame.mixer.music.load("dino_runner/components/som_jogo/musica_jogo.wav")
-score = pygame.mixer.Sound("dino_runner/components/som_jogo/sons_score_sound.wav")
-pygame.mixer_music.play(-1) 
+from dino_runner.components.powerups.power_up_manage import PowerUpManager #Importando o super poder
 
 
-class Game:
+
+
+pygame.init() #adicionei para ter acesso a sons no jogo
+pygame.mixer.music.load("dino_runner/components/som_jogo/musica_jogo.wav") # musica do jogo
+score = pygame.mixer.Sound("dino_runner/components/som_jogo/sons_score_sound.wav") #som do score
+pygame.mixer_music.play(-1) #coloquei -1 para que a musica rodasse sem parar
+
+
+class Game: #base do jogo
     def __init__(self):
         pygame.init()
         pygame.display.set_caption(TITLE)
@@ -21,15 +25,19 @@ class Game:
         self.playing = False
         self.running = False
         self.score = 0
-        self.death_count = 0 
+        self.death_count = 0 #cotagem de vidas 
         self.game_speed = 20
-        self.x_pos_bg = 0
+        self.x_pos_bg = 0 #posição do objeto
         self.y_pos_bg = 340
+        self.x_pos_cloud = 0 #adicionado
+        self.y_pos_cloud = 30 #adicionado 
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
         self.power_up_manager = PowerUpManager()
+       
     
-    def execute(self):
+    
+    def execute(self): #Enquanto meu personagem estive correndo, o jgo continua rodando, se não, vai para a tela do restart
         self.running = True
         while self.running:
             if not self.playing:
@@ -40,16 +48,16 @@ class Game:
     
     def run(self):
         self.playing = True
-        self.obstacle_manager.reset_obstacles()
+        self.obstacle_manager.reset_obstacles() #Aqui irá resetar os obstaculos
         self.power_up_manager.reset_power_up()
         self.game_speed = 10
         self.score = 0
-
+         #base do jogo
         while self.playing:
             self.events()
             self.update()
             self.draw ()
-
+            
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -64,27 +72,29 @@ class Game:
         self.update_score()
         self.power_up_manager.update(self.score, self.game_speed, self.player)
 
-    def update_score(self):  
+    def update_score(self):  #A cada 100 pontos a velocidade vai aumentando 
         self.score += 1
         if self.score % 100 == 0:
             self.game_speed +=  5
-            score.play()
+            score.play() # som do score, foi adicionado 
             
              
         
-    def draw(self): # tela do jogo
+    def draw(self): # Desenhando a tela do jogo
         self.clock.tick(FPS)  
         self.screen.fill((246, 102, 19))
         self.draw_blackground()
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
+        self.draw_cloud() #adicionado
         self.draw_score()
         self.draw_power_up_time()
         self.power_up_manager.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()
+      
         
-    def draw_blackground(self):
+    def draw_blackground(self): #Background do jogo
         image_width = BG.get_width()
         self.screen.blit(BG, (self.x_pos_bg, self.y_pos_bg))
         self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
@@ -94,11 +104,11 @@ class Game:
             self.x_pos_bg = 0
             self.x_pos_bg -= self.game_speed
 
-    def draw_score(self):
+    def draw_score(self): #Desenhando a pontuação do jogo
         draw_message_component(
-            f"score:{self.score}",
+            f"score:{self.score}", #recebe a pontuação do jogo
             self.screen,
-            pos_x_center = 1000,
+            pos_x_center = 1000, #Posição que irá aparecer a pontuação do jogo
             pos_y_center = 50
         )
 
@@ -116,6 +126,15 @@ class Game:
             else:
                     self.player.has_power_up = False
                     self.player.type = DEFAULT_TYPE
+                    
+    def draw_cloud(self):
+        image_width = CLOUD.get_width()
+        self.screen.blit(CLOUD, (image_width + self.x_pos_cloud, self.y_pos_cloud))
+        if self.x_pos_cloud <= - image_width:
+            self.screen.blit(CLOUD, (image_width + self.x_pos_cloud, self.y_pos_cloud))
+            self.x_pos_cloud = 1000
+
+        self.x_pos_cloud -= self.game_speed
     
     def handle_events_on_menu(self):
         for event in pygame.event.get():
@@ -123,14 +142,15 @@ class Game:
                 self.playing = False
                 self.running = False
             
-            elif event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN: #interação do teclado, se apertar qualquer tecla o restart acontece 
                 self.run()
 
-    def show_menu(self):
+    def show_menu(self): #desenvolvendo todos os menus 
         self.screen.fill((246, 102, 19)) #modifiquei a cor
         half_screen_height = SCREEN_HEIGHT // 2
         hals_screen_width = SCREEN_WIDTH // 2 
-        if self.death_count == 0:
+        
+        if self.death_count == 0: # se a contagem da morte for igual a zero
             
             draw_message_component("Pressione qualquer tecla para iniciar", self.screen)
         
@@ -149,7 +169,8 @@ class Game:
                 pos_y_center = half_screen_height - 100
             )
 
-            self.screen.blit(ICON, (hals_screen_width - 20, half_screen_height - 60))#modifiquei
+            self.screen.blit(ICON, (hals_screen_width - 20, half_screen_height - 60))#modifiquei o icone e ajustei a posição
+            self.screen.blit(GAME_OVER, (hals_screen_width - 200, half_screen_height - 190))#Adicionei o gamer over no final 
             
         pygame.display.flip()
         self.handle_events_on_menu()
