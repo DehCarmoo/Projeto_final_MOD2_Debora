@@ -1,6 +1,6 @@
 ### Tom e Jerry: O ultimato
 
--Este projeto consiste em um jogo feito na linguagem de programação python.
+- Este projeto consiste em um jogo feito na linguagem de programação python.
 
 ![Captura de Tela (161)](https://github.com/DehCarmoo/Projeto_final_MOD2_Debora/assets/112902010/c7375852-56d5-4762-9276-079045cd70d5)
 
